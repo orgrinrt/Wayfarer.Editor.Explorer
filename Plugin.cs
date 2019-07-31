@@ -1,6 +1,14 @@
-﻿namespace Wayfarer.EditorExplorer2
+﻿#if TOOLS
+
+using Godot;
+
+namespace Wayfarer.EditorExplorer
 {
-    public class Plugin
+    [Tool]
+    public class Plugin : EditorPlugin
     {
+    
     }
 }
+
+#endif
