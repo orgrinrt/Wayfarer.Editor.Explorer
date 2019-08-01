@@ -65,9 +65,9 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wayfarer\Wayfarer.csproj">
+    <ProjectReference Include="..\Wayfarer.Core\Wayfarer.Core.csproj">
       <Project>{26b559b2-1c9f-42d1-81a6-6e42a700f234}</Project>
-      <Name>Wayfarer</Name>
+      <Name>Wayfarer.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
