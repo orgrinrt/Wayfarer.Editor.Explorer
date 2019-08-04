@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="Highlighter" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.768627, 0.721569, 0.341176, 0.133333 )
