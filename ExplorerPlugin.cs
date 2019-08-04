@@ -15,17 +15,16 @@ using Wayfarer.Core.Utils.Helpers;
 namespace Wayfarer.Editor.Explorer
 {
     [Tool]
-    public class ExplorerPlugin : EditorPlugin
+    public class ExplorerPlugin : WayfarerModule
     {
         public EditorInterface EditorInterface => GetEditorInterface();
 
         private EditorExplorerDock _dock;
+        private float _dockDelay = 0.05f;
         
         public override void _EnterTree()
         {
             EnablePlugin();
-            
-            
         }
 
         public override void _Ready()
@@ -41,33 +40,6 @@ namespace Wayfarer.Editor.Explorer
             }
 
             DisablePlugin();
-        }
-
-        public override void ApplyChanges()
-        {
-            try
-            {
-                Node[] editorNodes = EditorInterface.GetBaseControl().GetChildrenRecursive();
-
-                foreach (Node node in editorNodes)
-                {
-                    if (node is Iterator)
-                    {
-                        try
-                        {
-                            Log.Wf.Editor("Found Iterator: " + node.GetParent().Name + "->" + node.Name + ", " + node.GetType(), true);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Wf.EditorError("Tried to QueueFree() EditorExplorerDock, but couldn't", e, true);
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Wf.EditorError("Couldn't Remove old EditorExplorer", e, true);
-            }
         }
 
         public override void _ExitTree()
@@ -196,13 +168,8 @@ namespace Wayfarer.Editor.Explorer
                 }
 
                 first = false;
-                yield return 1f;
+                yield return _dockDelay;
             }
-        }
-
-        private void EnsureThatEditorDockExists()
-        {
-            
         }
 
         private void AddCustomContainers()
@@ -235,64 +202,12 @@ namespace Wayfarer.Editor.Explorer
             // this proved to be futile and causing crashes - no fire-proof way to retain/get the reference to _dock
             // which is why we use the RemoveOldExplorer() method for this purpose here
         }
-        
-        public Tree GetEditorTree()
-        {
-            try
-            {
-                Control root = EditorInterface.GetBaseControl();
-                return GetEditorTree(root);
-            }
-            catch (Exception e)
-            {
-                Log.Wf.EditorError("Couldn't get the base control of the editor", e, true);
-            }
 
+        private Control GetExplorerDockParent()
+        {
             return null;
         }
-
-        public Tree GetEditorTree(Control rootNode)
-        {
-            Tree tree = new Tree();
-            int nameColumn = 0;
-
-            try
-            {
-                TreeItem rootItem = tree.CreateItem();
-                rootItem.SetText(nameColumn, rootNode.Name);
-                
-                PopulateTreeItemsFromNodeChildrenRecursive(tree, rootNode, rootItem, nameColumn);
-            }
-            catch (Exception e)
-            {
-                Log.Wf.EditorError("Couldn't generate the tree from the root node (" + rootNode.Name + ")", e, true);
-            }
-
-            return tree;
-        }
-
-        private void PopulateTreeItemsFromNodeChildrenRecursive(Tree tree, Node rootNode, TreeItem rootItem, int nameColumn)
-        {
-            try
-            {
-                if (rootNode.GetChildCount() > 0)
-                {
-                    foreach (Node child in rootNode.GetChildren())
-                    {
-                        TreeItem item = tree.CreateItem(rootItem);
-                        item.SetText(nameColumn, child.Name + "(" + child.GetType() + ")");
-                        item.Collapsed = true;
-                
-                        PopulateTreeItemsFromNodeChildrenRecursive(tree, child, item, nameColumn);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Wf.EditorError("Weird stuff man in " + nameof(PopulateTreeItemsFromNodeChildrenRecursive), e, true);
-            }
-        }
-
+        
         private Control GetSameControlAsScene()
         {
             try
@@ -320,7 +235,7 @@ namespace Wayfarer.Editor.Explorer
             
             return null;
         }
-        
+
         private void RemoveOldExplorer()
         {
             try

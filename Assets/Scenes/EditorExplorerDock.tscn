@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Addons/Wayfarer.Editor.Explorer/EditorExplorerDock.cs" type="Script" id=1]
+[ext_resource path="res://Addons/Wayfarer.Editor.Explorer/Assets/Scenes/Highlighter.tscn" type="PackedScene" id=2]
 
 [node name="EditorExplorer" type="Control"]
 anchor_right = 1.0
@@ -16,11 +17,33 @@ size_flags_vertical = 3
 
 [node name="Top" type="HBoxContainer" parent="VBox"]
 margin_right = 1024.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 0, 40 )
+margin_bottom = 26.0
+rect_min_size = Vector2( 0, 26 )
 
 [node name="Label" type="Label" parent="VBox/Top"]
-margin_top = 13.0
+margin_top = 6.0
 margin_right = 27.0
-margin_bottom = 27.0
+margin_bottom = 20.0
 text = "Test"
+
+[node name="Filler" type="Control" parent="VBox/Top"]
+margin_left = 31.0
+margin_right = 857.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+
+[node name="Popup" type="Button" parent="VBox/Top"]
+margin_left = 861.0
+margin_right = 913.0
+margin_bottom = 26.0
+toggle_mode = true
+text = "Popup"
+
+[node name="ClearSelection" type="Button" parent="VBox/Top"]
+margin_left = 917.0
+margin_right = 1024.0
+margin_bottom = 26.0
+text = "Clear Selection"
+
+[node name="Highlighter" parent="." instance=ExtResource( 2 )]
+visible = false

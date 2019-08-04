@@ -70,6 +70,10 @@
       <Project>{26b559b2-1c9f-42d1-81a6-6e42a700f234}</Project>
       <Name>Wayfarer.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wayfarer\Wayfarer.csproj">
+      <Project>{A0D6B264-B0F5-4E46-AD81-10AB77475B60}</Project>
+      <Name>Wayfarer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
