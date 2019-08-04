@@ -9,4 +9,3 @@ desc = "Test"
 version = "0.01"
 deps = [ 0 ]
 deps_vers = [ 0 ]
-node_path = null

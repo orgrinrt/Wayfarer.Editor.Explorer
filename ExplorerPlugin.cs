@@ -1,17 +1,14 @@
 ﻿#if TOOLS
 
 using System;
-using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using Godot;
-using Godot.Collections;
+using Wayfarer;
 using Wayfarer.Core.Systems;
-using Wayfarer.Core.Utils.Coroutine;
-using Wayfarer.Core.Utils.Debug;
-using Wayfarer.Core.Utils.Files;
-using Wayfarer.Core.Utils.Helpers;
-using Array = Godot.Collections.Array;
+using Wayfarer.ModuleSystem;
+using Wayfarer.Utils.Debug;
+using Wayfarer.Utils.Helpers;
 
 
 namespace Wayfarer.Editor.Explorer

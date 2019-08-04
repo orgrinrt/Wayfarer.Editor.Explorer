@@ -4,9 +4,9 @@ using System;
 using System.Collections;
 using Godot;
 using Wayfarer.Core.Systems;
-using Wayfarer.Core.Utils.Attributes;
-using Wayfarer.Core.Utils.Debug;
-using Wayfarer.Core.Utils.Helpers;
+using Wayfarer.Utils.Attributes;
+using Wayfarer.Utils.Debug;
+using Wayfarer.Utils.Helpers;
 
 namespace Wayfarer.Editor.Explorer
 {
