@@ -1,15 +1,17 @@
 ﻿#if TOOLS
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using Godot;
 using Godot.Collections;
 using Wayfarer.Core.Systems;
 using Wayfarer.Core.Utils.Coroutine;
 using Wayfarer.Core.Utils.Debug;
+using Wayfarer.Core.Utils.Files;
 using Wayfarer.Core.Utils.Helpers;
+using Array = Godot.Collections.Array;
 
 
 namespace Wayfarer.Editor.Explorer
@@ -21,14 +23,22 @@ namespace Wayfarer.Editor.Explorer
 
         private EditorExplorerDock _dock;
         private float _dockDelay = 0.05f;
+
+        private bool _defaultHighlightSetting = true;
         
         public override void _EnterTree()
         {
-            EnablePlugin();
+            base._EnterTree();
+
+            if (!WayfarerSettings.Contains("editor/explorer/enable_highlight"))
+            {
+                WayfarerSettings.Add("editor/explorer/enable_highlight", _defaultHighlightSetting);
+            }
         }
 
         public override void _Ready()
         {
+            base._Ready();
             try
             {
                 Log.Wf.Editor("ExplorerPlugin Ready, starting editor adding process!", true);
@@ -38,8 +48,6 @@ namespace Wayfarer.Editor.Explorer
             {
                 Log.Wf.EditorError("Couldn't add custom controls in ExplorerPlugin (_EnterTree)", e, true);
             }
-
-            DisablePlugin();
         }
 
         public override void _ExitTree()
@@ -63,6 +71,8 @@ namespace Wayfarer.Editor.Explorer
                     Log.Wf.EditorError("... that didn't work either, failing hard and crashing", e2, true);
                 }
             }
+            
+            base._ExitTree();
         }
 
         private void StartProcessToAddContainers()
@@ -85,7 +95,7 @@ namespace Wayfarer.Editor.Explorer
                 }
             }
             
-            try
+            try // Sanity checks on the iterator state before actually starting coroutines - we may wanna move this logic to Wayfarer.Editor
             {
                 Node baseControl = EditorInterface.GetBaseControl();
                 Godot.Collections.Array children = baseControl.GetChildren();
