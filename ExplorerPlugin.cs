@@ -27,9 +27,10 @@ namespace Wayfarer.Editor.Explorer
         {
             base._EnterTree();
 
-            if (!WayfarerSettings.Contains("editor/explorer/enable_highlight"))
+            if (!WayfarerProjectSettings.Contains("editor/explorer/enable_highlight"))
             {
-                WayfarerSettings.Add("editor/explorer/enable_highlight", _defaultHighlightSetting);
+                WayfarerProjectSettings.Add("editor/explorer/enable_highlight", _defaultHighlightSetting);
+                Log.Wf.Print("Added in default setting for editor/explorer/enable_highlight", true);
             }
         }
 
