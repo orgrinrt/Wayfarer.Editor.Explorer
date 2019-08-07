@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorExplorerDock.cs" />
+    <Compile Include="ExplorerHelp.cs" />
     <Compile Include="ExplorerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +70,10 @@
     <ProjectReference Include="..\Wayfarer.Core\Wayfarer.Core.csproj">
       <Project>{26b559b2-1c9f-42d1-81a6-6e42a700f234}</Project>
       <Name>Wayfarer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wayfarer.Editor\Wayfarer.Editor.csproj">
+      <Project>{8fce37c7-b9e2-4463-aa29-e8491169b66e}</Project>
+      <Name>Wayfarer.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wayfarer\Wayfarer.csproj">
       <Project>{A0D6B264-B0F5-4E46-AD81-10AB77475B60}</Project>
