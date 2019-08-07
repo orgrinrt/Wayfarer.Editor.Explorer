@@ -2,14 +2,13 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Godot.Collections;
+using Wayfarer;
 using Wayfarer.Core.Systems;
-using Wayfarer.Core.Utils.Coroutine;
-using Wayfarer.Core.Utils.Debug;
-using Wayfarer.Core.Utils.Helpers;
+using Wayfarer.ModuleSystem;
+using Wayfarer.Utils.Debug;
+using Wayfarer.Utils.Helpers;
 
 
 namespace Wayfarer.Editor.Explorer
@@ -21,13 +20,21 @@ namespace Wayfarer.Editor.Explorer
 
         private EditorExplorerDock _dock;
         private float _dockDelay = 0.05f;
+
+        private bool _defaultHighlightSetting = true;
+
+        internal const string SettingPathEnableHighlighter = "editor/explorer/enable_highlight";
         
-        public override void _EnterTree()
+        public override void _EnterTreeSafe()
         {
-            EnablePlugin();
+            if (!WayfarerProjectSettings.Contains(SettingPathEnableHighlighter))
+            {
+                WayfarerProjectSettings.AddOrUpdate(SettingPathEnableHighlighter, _defaultHighlightSetting);
+                Log.Wf.Print("Added in default setting for " + SettingPathEnableHighlighter, true);
+            }
         }
 
-        public override void _Ready()
+        public override void _ReadySafe()
         {
             try
             {
@@ -38,11 +45,9 @@ namespace Wayfarer.Editor.Explorer
             {
                 Log.Wf.EditorError("Couldn't add custom controls in ExplorerPlugin (_EnterTree)", e, true);
             }
-
-            DisablePlugin();
         }
 
-        public override void _ExitTree()
+        public override void _ExitTreeSafe()
         {
             RemoveCustomContainers();
             
@@ -60,7 +65,7 @@ namespace Wayfarer.Editor.Explorer
                 }
                 catch (Exception e2)
                 {
-                    Log.Wf.EditorError("... that didn't work either, failing hard and crashing", e2, true);
+                    Log.Wf.EditorError("    ... that didn't work either, failing hard and crashing", e2, true);
                 }
             }
         }
@@ -81,54 +86,13 @@ namespace Wayfarer.Editor.Explorer
                 }
                 catch (Exception e2)
                 {
-                    Log.Wf.EditorError("... that didn't work either, failing hard and crashing", e2, true);
+                    Log.Wf.EditorError("    ... that didn't work either, failing hard and crashing", e2, true);
                 }
             }
-            
+
             try
             {
-                Node baseControl = EditorInterface.GetBaseControl();
-                Godot.Collections.Array children = baseControl.GetChildren();
-                Godot.Collections.Array iterators = new Godot.Collections.Array();
-                Iterator iterator;
-
-                foreach (Node child in children)
-                {
-                    if (child is Iterator i)
-                    {
-                        iterators.Add(i);
-                    }
-                }
-                
-                if (iterators.Count > 1)
-                {
-                    Log.Wf.EditorError("There were MULTIPLE ITERATORS, this shouldn't happen (" + iterators.Count + ")", true);
-                    iterator = (Iterator) iterators.Last();
-
-                    for (int i = 0; i < iterators.Count - 1; i++)
-                    {
-                        Iterator it = (Iterator) iterators[i];
-                        try
-                        {
-                            it.QueueFree();
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Wf.EditorError("Couldn't QueueFree the extra iterators...?", e, true);
-                        }
-                    }
-                }
-                else
-                {
-                    iterator = (Iterator) iterators[0];
-                }
-
-                if (iterator == null)
-                {
-                    iterator = baseControl.GetNodeOfType<Iterator>();
-                }
-
-                iterator.Name = "EditorIterator";
+                Iterator iterator = WayfarerEditorPlugin.Instance.GetIterator();
                 
                 try
                 {
@@ -179,10 +143,13 @@ namespace Wayfarer.Editor.Explorer
                 PackedScene dockScene = GD.Load<PackedScene>("res://Addons/Wayfarer.Editor.Explorer/Assets/Scenes/EditorExplorerDock.tscn");
                 _dock = (EditorExplorerDock) dockScene.Instance();
                 _dock.SetPlugin(this);
+                _dock.Connect(nameof(EditorExplorerDock.TreeUpdated), this, nameof(OnDockTreeUpdated));
                 Control tab = GetSameControlAsScene();
                 if (tab != null)
                 {
+                    _dock.SetPlugin(this);
                     tab.AddChild(_dock);
+                    _dock.SetPlugin(this);
                 }
                 else
                 {
@@ -201,6 +168,11 @@ namespace Wayfarer.Editor.Explorer
         {
             // this proved to be futile and causing crashes - no fire-proof way to retain/get the reference to _dock
             // which is why we use the RemoveOldExplorer() method for this purpose here
+        }
+
+        private void OnDockTreeUpdated()
+        {
+            //_dock.SetPlugin(this);
         }
 
         private Control GetExplorerDockParent()

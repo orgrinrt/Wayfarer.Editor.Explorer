@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Addons/Wayfarer.Editor.Explorer/EditorExplorerDock.cs" type="Script" id=1]
 [ext_resource path="res://Addons/Wayfarer.Editor.Explorer/Assets/Scenes/Highlighter.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Addons/Wayfarer.Editor.Explorer/ExplorerHelp.cs" type="Script" id=3]
 
 [node name="EditorExplorer" type="Control"]
 anchor_right = 1.0
@@ -20,19 +21,19 @@ margin_right = 1024.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 0, 26 )
 
-[node name="Label" type="Label" parent="VBox/Top"]
-margin_top = 6.0
-margin_right = 27.0
-margin_bottom = 20.0
-text = "Test"
+[node name="Update" type="Button" parent="VBox/Top"]
+margin_right = 58.0
+margin_bottom = 26.0
+text = "Update"
 
 [node name="Filler" type="Control" parent="VBox/Top"]
-margin_left = 31.0
-margin_right = 857.0
+margin_left = 62.0
+margin_right = 913.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
 
 [node name="Popup" type="Button" parent="VBox/Top"]
+visible = false
 margin_left = 861.0
 margin_right = 913.0
 margin_bottom = 26.0
@@ -47,3 +48,13 @@ text = "Clear Selection"
 
 [node name="Highlighter" parent="." instance=ExtResource( 2 )]
 visible = false
+
+[node name="Help" type="Node" parent="."]
+script = ExtResource( 3 )
+textbox = null
+usage/textbox = null
+usage/note/textbox = null
+updating/textbox = null
+highlighter/textbox = null
+highlighter/current_state = true
+popups/textbox = null
