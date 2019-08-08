@@ -124,6 +124,8 @@ namespace Wayfarer.Editor.Explorer
             bool first = true;
             while (true)
             {
+                if (!IsInstanceValid(this)) break;
+                
                 if (!first)
                 {
                     Log.Wf.Editor("Adding the EditorExplorer containers!");
@@ -138,6 +140,7 @@ namespace Wayfarer.Editor.Explorer
 
         private void AddCustomContainers()
         {
+            if (!IsInstanceValid(this)) return;
             try
             {
                 PackedScene dockScene = GD.Load<PackedScene>("res://Addons/Wayfarer.Editor.Explorer/Assets/Scenes/EditorExplorerDock.tscn");
