@@ -92,17 +92,7 @@ namespace Wayfarer.Editor.Explorer
 
         public override void _ExitTree()
         {
-            Log.Wf.Editor("EditorExplorerDock is being queued free", true);
-            try
-            {
-                Iterator iterator = _plugin.EditorInterface.GetBaseControl().GetNodeOfType<Iterator>();
-                iterator.EditorCoroutine.Stop(CheckForChanges());
-            }
-            catch (Exception e)
-            {
-                Log.Wf.EditorError("Tried to stop EditorCoroutine CheckForChanges() in EditorExplorerDock, but couldn't", true);
-                Log.Wf.Simple("        ^ THIS IS OK, JUST A SANITY CHECK", true);
-            }
+            
         }
 
         private void UpdateTree()
