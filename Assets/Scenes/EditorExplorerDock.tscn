@@ -56,5 +56,5 @@ usage/textbox = null
 usage/note/textbox = null
 updating/textbox = null
 highlighter/textbox = null
-highlighter/current_state = true
+highlighter/current_state = null
 popups/textbox = null

@@ -38,7 +38,7 @@ namespace Wayfarer.Editor.Explorer
         {
             try
             {
-                Log.Wf.Editor("ExplorerPlugin Ready, starting editor adding process!", true);
+                Log.Wf.Editor("ExplorerPlugin Ready, starting editor adding process!");
                 CallDeferred(nameof(StartProcessToAddContainers));
             }
             catch (Exception e)
@@ -224,7 +224,7 @@ namespace Wayfarer.Editor.Explorer
                         try
                         {
                             node.QueueFree();
-                            Log.Wf.Editor("Removed old EditorExplorerDock (QueueFree)", true);
+                            Log.Wf.Editor("Removed old EditorExplorerDock (QueueFree)");
                         }
                         catch (Exception e)
                         {
@@ -251,7 +251,7 @@ namespace Wayfarer.Editor.Explorer
                         try
                         {
                             node.QueueFree();
-                            Log.Wf.Editor("Removed old EditorExplorerDock (QueueFree) (with defined parent)", true);
+                            Log.Wf.Editor("Removed old EditorExplorerDock (QueueFree) (with defined parent)");
                         }
                         catch (Exception e)
                         {
